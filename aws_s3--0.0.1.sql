@@ -92,7 +92,7 @@ AS $$
     response = obj.get()
     content_encoding = response.get('ContentEncoding')
     body = response['Body']
-    user_content_encoding = response.get('x-amz-meta-content-encoding')
+    user_content_encoding = response.get('x-amz-meta-content-encoding') or response.get("ResponseMetadata", {}).get("x-amz-meta-content-encoding")
 
     with tempfile.NamedTemporaryFile() as fd:
         if (content_encoding and content_encoding.lower() == 'gzip') or (user_content_encoding and user_content_encoding.lower() == 'gzip'):
